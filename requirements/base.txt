@@ -1,1 +1,1 @@
-metar==1.4.0
+-e git+https://github.com/tomp/python-metar.git

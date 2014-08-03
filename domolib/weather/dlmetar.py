@@ -8,7 +8,7 @@ __license__ = 'GPL'
 __version__ = '0.0.1'
 
 # Require metar
-# pip install metar
+# pip install git+https://github.com/tomp/python-metar.git
 
 import re
 import requests
