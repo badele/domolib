@@ -21,6 +21,7 @@ dist:
 
 install: 
 	@echo 'Running install'
+	@pip install metar
 	@python setup.py install
 
 
