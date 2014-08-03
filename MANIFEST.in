@@ -1,0 +1,4 @@
+include README.md
+include CHANGELOG.txt
+include tests.py
+include requirements/*.txt
