@@ -17,18 +17,23 @@ from metar import Metar
 
 
 class dlmetar():
-
     def __init__(self, **params):
 
-            # Set parameters
-            self.params = params
-            self.results = {}
+        # Set parameters
+        self.params = params
+        self.results = {}
 
     def compute(self):
         # Get Metar information
         r = None
-        r = requests.get("http://weather.noaa.gov/pub/data/observations/metar/stations/%s.TXT" % self.params['station'])
-        print "http://weather.noaa.gov/pub/data/observations/metar/stations/%s.TXT" % self.params['station']
+        r = requests.get(
+            'http://\
+            weather.noaa.gov/pub/data/observations/metar/stations/%s.TXT' %
+            self.params['station']
+        )
+        print 'http://\
+        weather.noaa.gov/pub/data/observations/metar/stations/%s.TXT' % \
+              self.params['station']
 
         if r is None or r.status_code != 200:
             return None
@@ -71,10 +76,17 @@ class dlmetar():
         if decode.temp and decode.dewpt:
             temp = decode.temp.value()
             dewpt = decode.dewpt.value()
-            self.results['humidity'] = round(100 * ((112 - 0.1 * temp + dewpt) / (112 + 0.9 * temp))**8, 2)
+            self.results['humidity'] = round(
+                100 * ((112 - 0.1 * temp + dewpt) / (112 + 0.9 * temp)) ** 8,
+                2
+            )
 
         # Calculate the wind chill or heat index
         if decode.temp and decode.wind_speed:
             speed = decode.wind_speed.value() * 1.852
             temp = decode.temp.value()
-            self.results['wind_chill'] = round(13.12 + 0.6215*temp + (0.3965*temp - 11.37) * speed ** 0.16, 2)
+            self.results['wind_chill'] = round(
+                13.12 + 0.6215 * temp +
+                (0.3965 * temp - 11.37) * speed ** 0.16,
+                2
+            )
