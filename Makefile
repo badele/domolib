@@ -22,8 +22,6 @@ dist:
 install: 
 	@echo 'Running install'
 	@echo 'install metar'
-	@wget "http://downloads.sourceforge.net/project/python-metar/python-metar/v1.4.0/metar-1.4.0.tar.gz?r=&ts=1407175653&use_mirror=freefr" -O metar-1.4.0.tar.gz
-	@pip install metar-1.4.0.tar.gz
 	@python setup.py install
 
 
