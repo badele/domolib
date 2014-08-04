@@ -1,7 +1,7 @@
 BASEDIR=$(CURDIR)
 DISTDIR=$(BASEDIR)/dist
 BUILDDIR=$(BASEDIR)/build
-PACKAGE='serialkiller-plugins'
+PACKAGE='domolib'
 
 test: pep8 coverage
 
