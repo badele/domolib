@@ -3,7 +3,7 @@ DISTDIR=$(BASEDIR)/dist
 BUILDDIR=$(BASEDIR)/build
 PACKAGE='domolib'
 
-test: pep8 coverage
+test: coverage
 
 build: 
 	@echo 'Running build'
