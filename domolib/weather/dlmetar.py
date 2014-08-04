@@ -25,15 +25,10 @@ class dlmetar():
 
     def compute(self):
         # Get Metar information
+        url = 'http://weather.noaa.gov/pub/data/observations/metar/stations'
+
         r = None
-        r = requests.get(
-            'http://\
-            weather.noaa.gov/pub/data/observations/metar/stations/%s.TXT' %
-            self.params['station']
-        )
-        print 'http://\
-        weather.noaa.gov/pub/data/observations/metar/stations/%s.TXT' % \
-              self.params['station']
+        r = requests.get('%s/%s.TXT' % (url, self.params['station']))
 
         if r is None or r.status_code != 200:
             return None
