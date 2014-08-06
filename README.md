@@ -1,5 +1,7 @@
 [![Travis build status](https://travis-ci.org/badele/domolib.png?branch=master)](https://travis-ci.org/badele/domolib)
 
+[![Coveralls status](https://coveralls.io/repos/badele/domolib/badge.png)](https://coveralls.io/r/badele/domolib)
+
 domolib
 =======
 
