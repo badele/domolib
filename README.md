@@ -5,4 +5,5 @@ domolib
 
 Home automation library
 
-- metar
+- metar (temp, dewpt, pressure, visibility, wind_speed, humidity, wind_chill)
+- vigilance (weatherlevelrisk, weatherrisk, floodlevelrisk)

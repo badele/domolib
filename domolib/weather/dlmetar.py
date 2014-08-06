@@ -17,25 +17,21 @@ from metar import Metar
 
 
 class dlmetar():
-    def __init__(self, **params):
+    def getbulletin(self, station):
+        results = {}
 
-        # Set parameters
-        self.params = params
-        self.results = {}
-
-    def compute(self):
         # Get Metar information
         url = 'http://weather.noaa.gov/pub/data/observations/metar/stations'
 
         r = None
-        r = requests.get('%s/%s.TXT' % (url, self.params['station']))
+        r = requests.get('%s/%s.TXT' % (url, station))
 
         if r is None or r.status_code != 200:
             return None
 
         # Extract only Metar informations
         m = re.search(
-            '%s .*' % self.params['station'],
+            '%s .*' % station,
             r.content
         )
 
@@ -48,30 +44,29 @@ class dlmetar():
 
         # Get temperature
         if decode.temp:
-            self.results['temp'] = decode.temp.value()
+            results['temp'] = decode.temp.value()
 
         # Get dewpt temperature
         if decode.dewpt:
-            self.results['dewpt'] = decode.dewpt.value()
+            results['dewpt'] = decode.dewpt.value()
 
         # Get pressure
         if decode.press:
-            self.results['pressure'] = decode.press.value()
+            results['pressure'] = decode.press.value()
 
         # Visibility
-        print decode.vis
         if decode.vis:
-            self.results['visibility'] = int(decode.vis.value())
+            results['visibility'] = int(decode.vis.value())
 
         # Get wind speed
         if decode.wind_speed:
-            self.results['wind_speed'] = decode.wind_speed.value() * 1.852
+            results['wind_speed'] = decode.wind_speed.value() * 1.852
 
         # Calculate the relative humidity
         if decode.temp and decode.dewpt:
             temp = decode.temp.value()
             dewpt = decode.dewpt.value()
-            self.results['humidity'] = round(
+            results['humidity'] = round(
                 100 * ((112 - 0.1 * temp + dewpt) / (112 + 0.9 * temp)) ** 8,
                 2
             )
@@ -80,8 +75,10 @@ class dlmetar():
         if decode.temp and decode.wind_speed:
             speed = decode.wind_speed.value() * 1.852
             temp = decode.temp.value()
-            self.results['wind_chill'] = round(
+            results['wind_chill'] = round(
                 13.12 + 0.6215 * temp +
                 (0.3965 * temp - 11.37) * speed ** 0.16,
                 2
             )
+
+        return results
