@@ -66,8 +66,8 @@ class TestPackages(unittest.TestCase):
         results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 00:00:00")
 
         # vars
-        self.assertTrue(results['selected_time_ts'] == 1407448800)
         print "###### %s ######" % results
+        self.assertTrue(results['selected_time_ts'] == 1407448800)
 
         self.assertTrue(results['sun_alt'] == -30)
         self.assertTrue(results['sun_az'] == 2)
