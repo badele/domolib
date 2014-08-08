@@ -67,6 +67,8 @@ class TestPackages(unittest.TestCase):
 
         # vars
         self.assertTrue(results['selected_time_ts'] == 1407448800)
+        print results['selected_time_ts']
+
         self.assertTrue(results['sun_alt'] == -30)
         self.assertTrue(results['sun_az'] == 2)
 
