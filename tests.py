@@ -10,6 +10,7 @@ __license__ = 'GPLv3'
 import unittest
 
 from domolib.weather.dlmetar import dlmetar
+from domolib.weather.sunshine import sunshine
 from domolib.weather.vigimeteo import vigimeteo
 
 
@@ -44,6 +45,69 @@ class TestPackages(unittest.TestCase):
         # Check department number error
         with self.assertRaises(Exception):
             obj.getvigilance('999')
+
+    def test_sunshine(self):
+        obj = sunshine()
+
+        # Check sunshine not latitude and longitude set
+        with self.assertRaises(Exception):
+            obj.getresults(latitude="43:36:43")
+
+        with self.assertRaises(Exception):
+            obj.getresults(longitude="3:53:38")
+
+        # check elevation is set
+        obj.getresults(
+            latitude="43:36:43", longitude="3:53:38", elevation=0,
+            horizon_std="-0.833", horizon_civ="-6", horizon_nav="-12", horizon_ast="-18"
+        )
+
+        # test with Montpellier location and on 2014-08-08 20:10:00
+        results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 00:00:00")
+
+        # vars
+        self.assertTrue(results['selected_time_ts'] == 1407448800)
+        self.assertTrue(results['sun_alt'] == -30)
+        self.assertTrue(results['sun_az'] == 2)
+
+        # Sunrise
+        self.assertTrue(results['sunrise_std_ts'] == 1407465245)
+        self.assertTrue(results['sunrise_civ_ts'] == 1407463606)
+        self.assertTrue(results['sunrise_nav_ts'] == 1407461270)
+        self.assertTrue(results['sunrise_ast_ts'] == 1407458613)
+
+        # Sunset
+        self.assertTrue(results['sunset_std_ts'] == 1407517518)
+        self.assertTrue(results['sunset_civ_ts'] == 1407519151)
+        self.assertTrue(results['sunset_nav_ts'] == 1407521474)
+        self.assertTrue(results['sunset_ast_ts'] == 1407524109)
+
+        # Night limit
+        results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 0:00:00")
+        self.assertTrue(results['sunshine_idx'] == 0)
+        results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 02:43:00")
+        self.assertTrue(results['sunshine_idx'] == 0)
+        results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 02:44:00")
+        self.assertTrue(results['sunshine_idx'] == 1)
+
+
+        # Astro limit
+        results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 03:27:00")
+        self.assertTrue(results['sunshine_idx'] == 1)
+        results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 03:28:00")
+        self.assertTrue(results['sunshine_idx'] == 2)
+
+        # Naval limit
+        results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 04:06:00")
+        self.assertTrue(results['sunshine_idx'] == 2)
+
+
+        # Civil limit
+        results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 04:34:00")
+        self.assertTrue(results['sunshine_idx'] == 3)
+
+        results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 04:36:00")
+        self.assertTrue(results['sunshine_idx'] == 255)
 
 
 if __name__ == "__main__":
