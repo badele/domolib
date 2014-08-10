@@ -66,23 +66,22 @@ class TestPackages(unittest.TestCase):
         results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 00:00:00")
 
         # vars
-        print "###### %s ######" % results
-        self.assertTrue(results['selected_time_ts'] == 1407448800)
+        self.assertTrue(results['selected_time_ts'] == 1407456000)
 
         self.assertTrue(results['sun_alt'] == -30)
         self.assertTrue(results['sun_az'] == 2)
 
         # Sunrise
-        self.assertTrue(results['sunrise_std_ts'] == 1407465245)
-        self.assertTrue(results['sunrise_civ_ts'] == 1407463606)
-        self.assertTrue(results['sunrise_nav_ts'] == 1407461270)
-        self.assertTrue(results['sunrise_ast_ts'] == 1407458613)
+        self.assertTrue(results['sunrise_std_ts'] == 1407472445)
+        self.assertTrue(results['sunrise_civ_ts'] == 1407470806)
+        self.assertTrue(results['sunrise_nav_ts'] == 1407468470)
+        self.assertTrue(results['sunrise_ast_ts'] == 1407465813)
 
         # Sunset
-        self.assertTrue(results['sunset_std_ts'] == 1407517518)
-        self.assertTrue(results['sunset_civ_ts'] == 1407519151)
-        self.assertTrue(results['sunset_nav_ts'] == 1407521474)
-        self.assertTrue(results['sunset_ast_ts'] == 1407524109)
+        self.assertTrue(results['sunset_std_ts'] == 1407524718)
+        self.assertTrue(results['sunset_civ_ts'] == 1407526351)
+        self.assertTrue(results['sunset_nav_ts'] == 1407528674)
+        self.assertTrue(results['sunset_ast_ts'] == 1407531309)
 
         # Night limit
         results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 0:00:00")
