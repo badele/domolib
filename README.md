@@ -10,3 +10,4 @@ Home automation library
 - sunshine (selected_time_ts, sun_alt, sun_az, sunshine_idx,
             sunrise_std_ts, sunrise_civ_ts, sunrise_nav_ts, sunrise_ast_ts,
             sunset_std_ts, sunset_civ_ts, sunset_nav_ts, sunset_ast_ts)
+- openweathermap (clouds, deg, humidity, pressure, speed, temp, weather, [rain])

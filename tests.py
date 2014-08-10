@@ -12,6 +12,7 @@ import unittest
 from domolib.weather.dlmetar import dlmetar
 from domolib.weather.sunshine import sunshine
 from domolib.weather.vigimeteo import vigimeteo
+from domolib.weather.openweather import openweather
 
 
 class TestPackages(unittest.TestCase):
@@ -109,6 +110,26 @@ class TestPackages(unittest.TestCase):
 
         results = obj.getresults(latitude="43:36:43", longitude="3:53:38", datetime="2014-08-08 04:36:00")
         self.assertTrue(results['sunshine_idx'] == 255)
+
+    def test_openweather(self):
+        obj = openweather()
+        results = obj.today(latitude=43.61, longitude=3.88)
+        self.assertTrue('clouds' in results)
+        self.assertTrue('deg' in results)
+        self.assertTrue('humidity' in results)
+        self.assertTrue('pressure' in results)
+        self.assertTrue('speed' in results)
+        self.assertTrue('temp' in results)
+        self.assertTrue('weather' in results)
+
+        results = obj.tomorrowp(latitude=43.61, longitude=3.88)
+        self.assertTrue('clouds' in results)
+        self.assertTrue('deg' in results)
+        self.assertTrue('humidity' in results)
+        self.assertTrue('pressure' in results)
+        self.assertTrue('speed' in results)
+        self.assertTrue('temp' in results)
+        self.assertTrue('weather' in results)
 
 
 if __name__ == "__main__":
