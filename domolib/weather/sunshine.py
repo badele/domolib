@@ -4,6 +4,7 @@
 import time
 import ephem
 import math
+import calendar
 
 
 class sunshine():
@@ -38,7 +39,7 @@ class sunshine():
             pdate = ephem.Date(params['datetime'])
             results['selected_time'] = pdate
 
-        results['selected_time_ts'] = int(time.mktime(pdate.datetime().timetuple()))
+        results['selected_time_ts'] = int(calendar.timegm(pdate.datetime().timetuple()))
 
         # Observer horizon
         if 'horizon_std' not in params:
@@ -84,8 +85,8 @@ class sunshine():
         sunset_std  = obs.next_setting(sun)
         results['sunrise_std'] = ephem.localtime(sunrise_std)
         results['sunset_std']  = ephem.localtime(sunset_std)
-        results['sunrise_std_ts'] = int(time.mktime(obs.previous_rising(sun).datetime().timetuple()))
-        results['sunset_std_ts']  = int(time.mktime(obs.next_setting(sun).datetime().timetuple()))
+        results['sunrise_std_ts'] = int(calendar.timegm(obs.previous_rising(sun).datetime().timetuple()))
+        results['sunset_std_ts']  = int(calendar.timegm(obs.next_setting(sun).datetime().timetuple()))
 
         # Civil
         obs.horizon = params['horizon_civ']
@@ -93,8 +94,8 @@ class sunshine():
         sunset_civ  = obs.next_setting(sun)
         results['sunrise_civ'] = ephem.localtime(sunrise_civ)
         results['sunset_civ']  = ephem.localtime(sunset_civ)
-        results['sunrise_civ_ts'] = int(time.mktime(obs.previous_rising(sun).datetime().timetuple()))
-        results['sunset_civ_ts']  = int(time.mktime(obs.next_setting(sun).datetime().timetuple()))
+        results['sunrise_civ_ts'] = int(calendar.timegm(obs.previous_rising(sun).datetime().timetuple()))
+        results['sunset_civ_ts']  = int(calendar.timegm(obs.next_setting(sun).datetime().timetuple()))
 
         # Nav
         obs.horizon = params['horizon_nav']
@@ -102,8 +103,8 @@ class sunshine():
         sunset_nav  = obs.next_setting(sun)
         results['sunrise_nav'] = ephem.localtime(sunrise_nav)
         results['sunset_nav']  = ephem.localtime(sunset_nav)
-        results['sunrise_nav_ts'] = int(time.mktime(obs.previous_rising(sun).datetime().timetuple()))
-        results['sunset_nav_ts']  = int(time.mktime(obs.next_setting(sun).datetime().timetuple()))
+        results['sunrise_nav_ts'] = int(calendar.timegm(obs.previous_rising(sun).datetime().timetuple()))
+        results['sunset_nav_ts']  = int(calendar.timegm(obs.next_setting(sun).datetime().timetuple()))
 
         # Astro
         obs.horizon = params['horizon_ast']
@@ -111,8 +112,8 @@ class sunshine():
         sunset_ast  = obs.next_setting(sun)
         results['sunrise_ast'] = ephem.localtime(sunrise_ast)
         results['sunset_ast']  = ephem.localtime(sunset_ast)
-        results['sunrise_ast_ts'] = int(time.mktime(obs.previous_rising(sun).datetime().timetuple()))
-        results['sunset_ast_ts']  = int(time.mktime(obs.next_setting(sun).datetime().timetuple()))
+        results['sunrise_ast_ts'] = int(calendar.timegm(obs.previous_rising(sun).datetime().timetuple()))
+        results['sunset_ast_ts']  = int(calendar.timegm(obs.next_setting(sun).datetime().timetuple()))
 
         idx = -1
         if pdate < sunrise_ast or pdate > sunset_ast:
