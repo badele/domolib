@@ -1,2 +1,3 @@
 requests==2.2.0
 ephem==3.7.5.3
+-e git+git@github.com:tomp/python-metar.git#egg=metar

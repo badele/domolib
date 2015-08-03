@@ -1,3 +1,5 @@
 -r base.txt
 pep8==1.4.6
 coveralls==0.3
+tox==2.1.1
+pytest==2.7.2
