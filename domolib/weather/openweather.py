@@ -6,7 +6,11 @@
 # http://api.domogeek.fr
 #
 
-import urllib, urllib2
+try:
+    from urllib.request import urlopen, quote
+except ImportError:
+    from urllib import urlopen, quote
+
 import json
 
 
@@ -14,9 +18,9 @@ class openweather:
 
     def getweatherinfo(self, latitude, longitude):
         url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=%s&lon=%s&units=metric&cnt=2" % (
-            urllib.quote(str(latitude)), urllib.quote(str(longitude))
+            quote(str(latitude)), quote(str(longitude))
         )
-        data = urllib.urlopen(url).read()
+        data = urlopen(url).read().decode('utf-8')
         dataopenweathermap = json.loads(data)
 
         return dataopenweathermap['list']

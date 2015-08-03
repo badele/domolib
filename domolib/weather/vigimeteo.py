@@ -6,7 +6,11 @@
 # http://api.domogeek.fr
 #
 
-import urllib
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib import urlopen
+
 from xml.dom import minidom
 
 
@@ -22,7 +26,7 @@ class vigimeteo:
                 raise Exception("Error in department number")
 
             url = 'http://vigilance.meteofrance.com/data/NXFR34_LFPW_.xml'
-            dom = minidom.parse(urllib.urlopen(url))
+            dom = minidom.parse(urlopen(url))
 
             colors = ['green', 'green', 'yellow', 'orange', 'red']
             risks = ['NONE', 'wind', 'flooding rain', 'storm', 'flooding', 'snow ice', 'cold']

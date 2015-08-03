@@ -11,7 +11,11 @@ __version__ = '0.0.1'
 # pip install git+https://github.com/tomp/python-metar.git
 
 import re
-import requests
+
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib import urlopen
 
 from metar import Metar
 
@@ -24,15 +28,15 @@ class dlmetar():
         url = 'http://weather.noaa.gov/pub/data/observations/metar/stations'
 
         r = None
-        r = requests.get('%s/%s.TXT' % (url, station))
+        r = urlopen('%s/%s.TXT' % (url, station))
 
-        if r is None or r.status_code != 200:
+        if r.getcode() is None or r.getcode() != 200:
             return None
 
         # Extract only Metar informations
         m = re.search(
             '%s .*' % station,
-            r.content
+            r.read().decode('utf-8')
         )
 
         if not m:
