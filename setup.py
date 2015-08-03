@@ -39,9 +39,18 @@ Remove unsupported github tags:
 
 def required(filename):
     with open(filename) as f:
-        packages = f.read().splitlines()
+        all_packages = f.read().splitlines()
 
-    return packages
+    packages = []
+    links = []
+    for line in all_packages:
+        match = re.search(r'.*(git\+git.*)', line)
+        if match:
+            links.append(match.group(1))
+        else:
+            packages.append(line)
+
+    return {'packages': packages, 'links': links}
 
 
 setup(
@@ -53,7 +62,8 @@ setup(
     author_email="bruno@adele.im",
     url="https://github.com/badele/domolib",
     license="GPL",
-    install_requires=required('requirements/base.txt'),
+    install_requires=required('requirements/base.txt')['packages'],
+    dependency_links=required('requirements/base.txt')['links'],
     setup_requires=[],
     tests_require=[
         'pep8',
