@@ -1,1 +1,4 @@
-__author__ = 'badele'
+import dlmetar
+import openweather
+import sunshine
+import vigimeteo
