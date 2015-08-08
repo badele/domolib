@@ -1,1 +1,1 @@
-import weather
+import plugins

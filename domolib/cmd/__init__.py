@@ -9,10 +9,11 @@ __version__ = '0.0.1'
 
 # System
 import sys
-import argparse
 import pprint
+import inspect
+import argparse
+from domolib.commons import plugins
 
-from domolib import *
 
 def parse_arguments(cmdline=""):
     """Parse the arguments"""
@@ -42,6 +43,13 @@ def parse_arguments(cmdline=""):
         help='Format'
     )
 
+
+    parser.add_argument(
+        '-l', '--list',
+        action='store_true',
+        dest='list',
+       help='List functions'
+    )
 
     parser.add_argument(
         '--version',
@@ -106,6 +114,35 @@ def toTxt(dictvalue):
 
     return result
 
+def listFunctions():
+    infos = plugins.get_plugins_informations()
+    for modulename in infos.keys():
+        # Calc funcdesk maxsize
+        maxsize = 0
+        for funcinfo in infos[modulename]:
+            funcmethod = "%s(" % funcinfo['func']
+            for param in funcinfo['params']:
+                funcmethod += "%s, " % param
+
+            funcmethod = "%s)" % funcmethod[:-2]
+
+
+            maxsize = max(maxsize, len(funcmethod))
+
+        # Show the plugin functions
+        print " + %s" % modulename
+        for funcinfo in infos[modulename]:
+            funcmethod = "%s(" % funcinfo['func']
+            for param in funcinfo['params']:
+                funcmethod += "%s, " % param
+
+            funcmethod = "%s)" % funcmethod[:-2]
+            funcmethod = funcmethod.ljust(maxsize)
+            funccomment = funcinfo['comment']
+            print " | %(funcmethod)s  %(funccomment)s" % locals()
+    print ""
+    print ""
+
 def main():
     # Parse arguments
     args = parse_arguments(sys.argv[1:])  # pragma: no cover
@@ -123,6 +160,11 @@ def main():
         if args.format == 'flat':
             print toTxt(flattenDict(result))
 
+    if args.list:
+        listFunctions()
+
+
 if __name__ == '__main__':
     #  domolib_cmd.py -a "weather.dlmetar.dlmetar().getbulletin(station='LFMT')" -f flat
     main()  # pragma: no cover
+

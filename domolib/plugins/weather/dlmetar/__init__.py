@@ -18,6 +18,7 @@ except ImportError:
     from urllib import urlopen
 
 from metar import Metar
+from domolib.commons.decorator import command
 
 
 class dlmetar():
@@ -86,3 +87,23 @@ class dlmetar():
             )
 
         return results
+
+@command
+def get_metarinfo(oaci,toto):
+    """
+    Get a weather from metar report
+    :param oaci:
+    :param toto:
+    :return:
+    """
+    pass
+
+@command
+def get_metarlistinfo(oaci):
+    """
+    Get a OACI metar report from list airport
+    :param oaci:
+    :param toto:
+    :return:
+    """
+    pass
