@@ -3,17 +3,16 @@
 
 __authors__ = 'Bruno Adelé <bruno@adele.im>'
 __copyright__ = 'Copyright (C) 2015 Bruno Adelé'
-__description__ = """timeseries database with reduce system"""
+__description__ = """Home automation library with command line interpreter"""
 __license__ = 'GPL'
 __version__ = '0.0.1'
 
 # System
 import sys
 import pprint
-import inspect
 import argparse
-from domolib.commons import plugins
 
+import domolib
 
 def parse_arguments(cmdline=""):
     """Parse the arguments"""
@@ -24,17 +23,25 @@ def parse_arguments(cmdline=""):
     )
 
     parser.add_argument(
-        '-a', '--action',
+        '-c', '--command',
         action='store',
-        dest='action',
-       help='Action'
+        dest='command',
+       help='Execute Commande'
     )
+
+    parser.add_argument(
+        '-s', '--select-field',
+        action='store',
+        dest='select',
+       help='select only the field'
+    )
+
 
     parser.add_argument(
         '-f', '--format',
         action='store',
         dest='format',
-        default='json',
+        default='flat',
         choices=[
             'flat',
             'json',
@@ -115,7 +122,7 @@ def toTxt(dictvalue):
     return result
 
 def listFunctions():
-    infos = plugins.get_plugins_informations()
+    infos = domolib.commons.plugins.get_plugins_informations()
     for modulename in infos.keys():
         # Calc funcdesk maxsize
         maxsize = 0
@@ -140,16 +147,22 @@ def listFunctions():
             funcmethod = funcmethod.ljust(maxsize)
             funccomment = funcinfo['comment']
             print " | %(funcmethod)s  %(funccomment)s" % locals()
-    print ""
-    print ""
+        print ""
 
 def main():
     # Parse arguments
     args = parse_arguments(sys.argv[1:])  # pragma: no cover
 
     # Execute command and export
-    if args.action:
-        result = eval(args.action)
+    if args.command:
+        result = {}
+        cmd = 'result = %s' % args.command
+        exec(cmd)
+
+        if args.select:
+            result = eval(args.select)
+            print result
+            return
 
         if args.format == 'json':
             pprint.pprint(result, indent=2)
@@ -160,11 +173,11 @@ def main():
         if args.format == 'flat':
             print toTxt(flattenDict(result))
 
+
     if args.list:
         listFunctions()
 
 
 if __name__ == '__main__':
-    #  domolib_cmd.py -a "weather.dlmetar.dlmetar().getbulletin(station='LFMT')" -f flat
     main()  # pragma: no cover
 
