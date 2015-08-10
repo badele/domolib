@@ -58,10 +58,13 @@ class cache(object):
 
         # Write result in the cachefile
         filename = '%s/%s' % (self.rootcache, cachefile)
-        with open(filename, 'w') as f:
-            jsontext = json.dumps(
-                result, sort_keys=True,
-                indent=4, separators=(',', ': ')
-            )
-            f.write(jsontext)
-            f.close()
+        try:
+            with open(filename, 'w') as f:
+                jsontext = json.dumps(
+                    result, sort_keys=True,
+                    indent=4, separators=(',', ': ')
+                )
+                f.write(jsontext)
+                f.close()
+        except:
+            os.remove(filename)
