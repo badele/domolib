@@ -74,7 +74,11 @@ setup(
     include_package_data=True,
     zip_safe=False,
     scripts=[],
-    entry_points={},
+    entry_points={
+        'console_scripts': [
+            'domolib = domolib.cmd:main'
+        ]
+    },
     classifiers=[
         'Programming Language :: Python',
     ],
