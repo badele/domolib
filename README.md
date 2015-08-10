@@ -1,5 +1,15 @@
 [![Travis build status](https://travis-ci.org/badele/domolib.png?branch=master)](https://travis-ci.org/badele/domolib) [![Coveralls status](https://coveralls.io/repos/badele/domolib/badge.png)](https://coveralls.io/r/badele/domolib)
 
+sample
+======
+
+ - domolib -c "domolib.plugins.weather.sunshine.get_sunshineinfo('43:36:43', '3:53:38', '8')"
+ - domolib -c "domolib.plugins.weather.sunshine.get_sunshineinfo('43:36:43', '3:53:38', '8')" -s "result['sun_alt']" 
+
+ - domolib -c "domolib.plugins.weather.dlmetar.get_metarinfo('LFMT')"
+ - domolib -c "domolib.plugins.weather.dlmetar.get_metarinfo('LFMT')" -s "result['temp']"
+
+
 domolib
 =======
 
