@@ -6,6 +6,9 @@ import ephem
 import math
 import calendar
 
+from domolib.commons.decorator import command
+from domolib.commons import cache
+
 
 class sunshine():
     """Check if day or night"""
@@ -151,3 +154,30 @@ class sunshine():
         results['sunshine_idx'] = idx
 
         return results
+
+@command
+def get_sunshineinfo(latitude, longitude, elevation):
+    """
+    Get the sun position and sunshine
+    :param latitude:
+    :param longitude:
+    :param elevation:
+    :return:
+    """
+
+    # Get result from cache
+    mycache = cache.cache(cachefile='sunshine.get_sunshineinfo')
+    result = mycache.getcachedresults()
+    if result:
+        return result
+
+    # Compute the result and store in the cache file
+    obj = sunshine()
+    result = obj.getresults(
+        latitude=latitude,
+        longitude=longitude,
+        elevation=elevation
+    )
+    mycache.setcacheresults(result)
+
+    return result
