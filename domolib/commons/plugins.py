@@ -6,7 +6,7 @@ import inspect
 import importlib
 import textwrap
 
-import domolib
+import domolib.plugins
 
 def get_plugins_informations():
     plugins_patch =  os.path.dirname(domolib.plugins.__file__)
