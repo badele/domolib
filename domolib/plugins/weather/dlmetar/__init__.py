@@ -18,13 +18,12 @@ except ImportError:
     from urllib import urlopen
 
 from metar import Metar
-from filecache import filecache
 
 from domolib.commons.decorator import command
 from domolib.commons import cache
 
 class dlmetar():
-    def getbulletin(self, station):
+    def getresults(self, station):
         results = {}
 
         # Get Metar information
@@ -106,7 +105,7 @@ def get_metarinfo(oaci_station):
 
     # Compute the result and store in the cache file
     obj = dlmetar()
-    result = obj.getbulletin(station=oaci_station)
+    result = obj.getresults(station=oaci_station)
     mycache.setcacheresults(result)
 
     return result
