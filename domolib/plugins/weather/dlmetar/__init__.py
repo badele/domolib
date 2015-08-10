@@ -18,8 +18,10 @@ except ImportError:
     from urllib import urlopen
 
 from metar import Metar
-from domolib.commons.decorator import command
+from filecache import filecache
 
+from domolib.commons.decorator import command
+from domolib.commons import cache
 
 class dlmetar():
     def getbulletin(self, station):
@@ -89,21 +91,22 @@ class dlmetar():
         return results
 
 @command
-def get_metarinfo(oaci,toto):
+def get_metarinfo(oaci_station):
     """
     Get a weather from metar report
-    :param oaci:
-    :param toto:
+    :param oaci_station:
     :return:
     """
-    pass
 
-@command
-def get_metarlistinfo(oaci):
-    """
-    Get a OACI metar report from list airport
-    :param oaci:
-    :param toto:
-    :return:
-    """
-    pass
+    # Get result from cache
+    mycache = cache.cache(cachefile='dlmetar.get_metarinfo')
+    result = mycache.getcachedresults()
+    if result:
+        return result
+
+    # Compute the result and store in the cache file
+    obj = dlmetar()
+    result = obj.getbulletin(station=oaci_station)
+    mycache.setcacheresults(result)
+
+    return result
