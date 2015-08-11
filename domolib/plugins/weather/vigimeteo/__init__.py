@@ -13,6 +13,9 @@ except ImportError:
 
 from xml.dom import minidom
 
+from domolib.commons.decorator import command
+from domolib.commons import cache
+
 
 class vigimeteo:
         def __init__(self, **params):
@@ -21,7 +24,7 @@ class vigimeteo:
             self.params = params
             self.results = {}
 
-        def getvigilance(self, deprequest):
+        def getresults(self, deprequest):
             if len(deprequest) != 2:
                 raise Exception("Error in department number")
 
@@ -57,3 +60,23 @@ class vigimeteo:
                     }
 
             return None
+
+@command
+def get_vigimeteoinfo(department):
+    """
+    Get department flood alert
+    :param department:
+    :return:
+    """
+    # Get result from cache
+    mycache = cache.cache(cachefile='vigimeteo.get_vigimeteoinfo')
+    result = mycache.getcachedresults()
+    if result:
+        return result
+
+    # Compute the result and store in the cache file
+    obj = vigimeteo()
+    result  = obj.getresults(department)
+    mycache.setcacheresults(result)
+
+    return result
