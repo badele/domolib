@@ -13,6 +13,9 @@ except ImportError:
 
 import json
 
+from domolib.commons.decorator import command
+from domolib.commons import cache
+
 
 class openweather:
 
@@ -28,5 +31,47 @@ class openweather:
     def today(self, latitude, longitude):
         return self.getweatherinfo(latitude, longitude)[0]
 
-    def tomorrowp(self, latitude, longitude):
+    def tomorrow(self, latitude, longitude):
         return self.getweatherinfo(latitude, longitude)[1]
+
+@command
+def get_today_weather(latitude, longitude):
+    """
+    Get today weather
+    :param latitude:
+    :param longitude:
+    :return:
+    """
+    # Get result from cache
+    mycache = cache.cache(cachefile='openweather.get_today_weather')
+    result = mycache.getcachedresults()
+    if result:
+        return result
+
+    # Compute the result and store in the cache file
+    obj = openweather()
+    result  = obj.today(latitude, longitude)
+    mycache.setcacheresults(result)
+
+    return result
+
+@command
+def get_tomorrow_weather(latitude, longitude):
+    """
+    Get tomorrow weather
+    :param latitude:
+    :param longitude:
+    :return:
+    """
+    # Get result from cache
+    mycache = cache.cache(cachefile='openweather.get_tomorrow_weather')
+    result = mycache.getcachedresults()
+    if result:
+        return result
+
+    # Compute the result and store in the cache file
+    obj = openweather()
+    result  = obj.tomorrow(latitude, longitude)
+    mycache.setcacheresults(result)
+
+    return result
